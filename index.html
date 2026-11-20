@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CONSTELLATION MOUSE EFFECT -->
+
+<canvas id="constellation-canvas"></canvas>
+<div class="custom-cursor"></div>
+
+<script>
+const canvas = document.getElementById("constellation-canvas");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let mouse = { x: -1000, y: -1000 };
+let cursor = document.querySelector(".custom-cursor");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+document.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+
+    // Create constellation particles
+    for (let i = 0; i < 3; i++) {
+        particles.push({
+            x: mouse.x + (Math.random() - 0.5) * 35,
+            y: mouse.y + (Math.random() - 0.5) * 35,
+            size: Math.random() * 2.5 + 1,
+            life: 1,
+            speedX: (Math.random() - 0.5) * 1.5,
+            speedY: (Math.random() - 0.5) * 1.5
+        });
+    }
+});
+
+function animateConstellation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw particles
+    particles.forEach((p, index) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= 0.009;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+        ctx.fillStyle = `rgba(255, 182, 208, ${p.life})`;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#ff4f91";
+        ctx.fill();
+
+        if (p.life <= 0) {
+            particles.splice(index, 1);
+        }
+    });
+
+    // Connect nearby particles
+    ctx.shadowBlur = 0;
+
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 110) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+
+                ctx.strokeStyle =
+                    `rgba(255, 182, 208, ${0.4 * (1 - distance / 110)})`;
+
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
+
+    // Connect particles to mouse
+    particles.forEach(p => {
+        let dx = p.x - mouse.x;
+        let dy = p.y - mouse.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 140) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = "rgba(255, 182, 208, 0.5)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+    });
+
+    requestAnimationFrame(animateConstellation);
+}
+
+animateConstellation();
+</script>
+</body>
+</html>
+
+
+<header>
+    <a href="index.html" class="logo">MY<span>PORTFOLIO.</span></a>
+
+    <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <p class="intro">WELCOME TO MY DIGITAL WORLD</p>
+        <h1>Hello, I'm <span>Angel!</span></h1>
+        <h2>Future IT Professional</h2>
+
+        <p>
+            I am an Information Technology student who enjoys
+            learning about technology, web development, and
+            computer programming. I am continuously improving
+            my skills through school activities, research,
+            and hands-on experiences.
+        </p>
+
+        <a href="about.html" class="btn">Discover More</a>
+    </div>
+
+    <div class="cube-container">
+        <div class="cube">
+            <div class="cube-face front">
+                <img src="Aciel2by2.jpg" alt="My Profile Picture">
+            </div>
+            <div class="cube-face back">IT STUDENT</div>
+            <div class="cube-face right">CREATIVE</div>
+            <div class="cube-face left">DREAM BIG</div>
+            <div class="cube-face top">LEARN</div>
+            <div class="cube-face bottom">CREATE</div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Angel's Personal Portfolio | Designed with Passion</p>
+</footer>
+
+</body>
+</html>

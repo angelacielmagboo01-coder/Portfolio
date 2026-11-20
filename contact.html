@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CONSTELLATION MOUSE EFFECT -->
+
+<canvas id="constellation-canvas"></canvas>
+<div class="custom-cursor"></div>
+
+<script>
+const canvas = document.getElementById("constellation-canvas");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let mouse = { x: -1000, y: -1000 };
+let cursor = document.querySelector(".custom-cursor");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+document.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+
+    // Create constellation particles
+    for (let i = 0; i < 3; i++) {
+        particles.push({
+            x: mouse.x + (Math.random() - 0.5) * 35,
+            y: mouse.y + (Math.random() - 0.5) * 35,
+            size: Math.random() * 2.5 + 1,
+            life: 1,
+            speedX: (Math.random() - 0.5) * 1.5,
+            speedY: (Math.random() - 0.5) * 1.5
+        });
+    }
+});
+
+function animateConstellation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw particles
+    particles.forEach((p, index) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= 0.009;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+        ctx.fillStyle = `rgba(255, 182, 208, ${p.life})`;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#ff4f91";
+        ctx.fill();
+
+        if (p.life <= 0) {
+            particles.splice(index, 1);
+        }
+    });
+
+    // Connect nearby particles
+    ctx.shadowBlur = 0;
+
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 110) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+
+                ctx.strokeStyle =
+                    `rgba(255, 182, 208, ${0.4 * (1 - distance / 110)})`;
+
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
+
+    // Connect particles to mouse
+    particles.forEach(p => {
+        let dx = p.x - mouse.x;
+        let dy = p.y - mouse.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 140) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = "rgba(255, 182, 208, 0.5)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+    });
+
+    requestAnimationFrame(animateConstellation);
+}
+
+animateConstellation();
+</script>
+</body>
+</html>
+
+<header>
+    <a href="index.html" class="logo">MY<span>PORTFOLIO.</span></a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html" class="active">Contact</a>
+    </nav>
+</header>
+
+<section class="page-section">
+    <p class="intro">LET'S CONNECT</p>
+    <h1>Contact <span>Me</span></h1>
+
+    <div class="contact-container">
+
+        <div class="contact-info">
+            <h2>Get In Touch!</h2>
+            <p>
+                Thank you for visiting my personal portfolio.
+                Feel free to reach out if you want to connect,
+                collaborate, or learn more about my work.
+            </p>
+
+            <p>📧 Email: angelacielmagboo01@gmail.com.com</p>
+            <p>📍 Location: Puerto Galera, Oriental Mindoro, Philippines</p>
+            <p>💻 Field: Information Technology</p>
+        </div>
+
+        <form class="contact-form" action="#" method="get">
+            <input type="text" name="name"
+                   placeholder="Your Name" required>
+
+            <input type="email" name="email"
+                   placeholder="Your Email" required>
+
+            <input type="text" name="subject"
+                   placeholder="Subject" required>
+
+            <textarea name="message"
+                      placeholder="Write your message here..."
+                      rows="6" required></textarea>
+
+            <button type="submit" class="btn">
+                Send Message
+            </button>
+        </form>
+
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Angel's Personal Portfolio</p>
+</footer>
+
+</body>
+
+<!-- CONSTELLATION MOUSE EFFECT -->
+
+<canvas id="constellation-canvas"></canvas>
+<div class="custom-cursor"></div>
+
+<script>
+const canvas = document.getElementById("constellation-canvas");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let mouse = { x: -1000, y: -1000 };
+let cursor = document.querySelector(".custom-cursor");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+document.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+
+    // Create constellation particles
+    for (let i = 0; i < 3; i++) {
+        particles.push({
+            x: mouse.x + (Math.random() - 0.5) * 35,
+            y: mouse.y + (Math.random() - 0.5) * 35,
+            size: Math.random() * 2.5 + 1,
+            life: 1,
+            speedX: (Math.random() - 0.5) * 1.5,
+            speedY: (Math.random() - 0.5) * 1.5
+        });
+    }
+});
+
+function animateConstellation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw particles
+    particles.forEach((p, index) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= 0.009;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+        ctx.fillStyle = `rgba(255, 182, 208, ${p.life})`;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#ff4f91";
+        ctx.fill();
+
+        if (p.life <= 0) {
+            particles.splice(index, 1);
+        }
+    });
+
+    // Connect nearby particles
+    ctx.shadowBlur = 0;
+
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 110) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+
+                ctx.strokeStyle =
+                    `rgba(255, 182, 208, ${0.4 * (1 - distance / 110)})`;
+
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
+
+    // Connect particles to mouse
+    particles.forEach(p => {
+        let dx = p.x - mouse.x;
+        let dy = p.y - mouse.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 140) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = "rgba(255, 182, 208, 0.5)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+    });
+
+    requestAnimationFrame(animateConstellation);
+}
+
+animateConstellation();
+</script>
+</body>
+</html>
+
+</html>
